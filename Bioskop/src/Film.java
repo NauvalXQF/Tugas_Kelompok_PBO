@@ -4,13 +4,13 @@ public class Film {
     private String judul;
     private String genre;
     private int durasiFilm;
-    private int batasUmur;
+    private double batasUmur;
 
     // konstruktor tanpa parameter
     public Film(){}
 
     // konstruktor dengan parameter
-    public Film( String idFilm, String judul, String genre, int durasiFilm, int batasUmur){
+    public Film( String idFilm, String judul, String genre, double durasiFilm, double batasUmur){
         this.idFilm = idFilm;
         this.judul = judul;
         this.genre = genre;
@@ -31,7 +31,7 @@ public class Film {
         return genre;
     }
 
-    public int getDurasiFilm(){
+    public double getDurasiFilm(){
         return durasiFilm;
     }
 
@@ -52,7 +52,7 @@ public class Film {
         this.genre = genre;
     }
 
-    public void setDurasiFilm(int durasiFilm){
+    public void setDurasiFilm(double durasiFilm){
         this.durasiFilm = durasiFilm;
     }
 
