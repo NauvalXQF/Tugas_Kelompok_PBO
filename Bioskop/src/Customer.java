@@ -1,7 +1,7 @@
 public class Customer extends User{
     // atribut
     private double saldo;
-    private int umur;
+
 
     //konstruktor tanpa parameter
     public Customer(){
@@ -9,10 +9,9 @@ public class Customer extends User{
     }
 
     // konstruktor dengan parameter
-    public Customer(String idUser, String nama, String email, String password, double saldo, int umur){
+    public Customer(String idUser, String nama, String email, String password, double saldo){
         super(idUser, nama, email, password);
         this.saldo = saldo;
-        this.umur = umur;
     }
 
     // getter
@@ -29,15 +28,11 @@ public class Customer extends User{
         this.saldo = saldo;
     }
 
-    public void setUmur(int umur){
-        this.umur = umur;
-    }
 
     // implementasi method
     @Override
     public void printInfo(){
         super.printInfo();
-        System.out.println("Usia: " + umur);
         System.out.println("Saldo: " + saldo);
     }
     
