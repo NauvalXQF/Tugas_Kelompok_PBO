@@ -50,13 +50,28 @@ public class Transaksi implements Pembayaran {
         this.jumlahTiket = jumlahTiket;
     }
 
-    // method
-    public void tambahTiket(Tiket tiketBaru){
-        if (jumlahTiket < tiketDibeli.length){
+    // method dengan try-catch (versi lama DIHAPUS)
+    public void tambahTiket(Tiket tiketBaru) {
+        try {
+            if (tiketBaru == null) {
+                throw new IllegalArgumentException("Tiket tidak boleh null!");
+            }
+            if (tiketBaru.getKursi().getIsBooked() == false) {
+                throw new IllegalStateException("Kursi " + tiketBaru.getKursi().getNoKursi() + " belum di-booking!");
+            }
+            if (jumlahTiket >= tiketDibeli.length) {
+                throw new ArrayIndexOutOfBoundsException("Kapasitas transaksi penuh! Maksimal: " + tiketDibeli.length);
+            }
             tiketDibeli[jumlahTiket] = tiketBaru;
             jumlahTiket++;
-        } else{
-            System.out.println("Maaf, Tiket HABIS!!!");
+            System.out.println("[OK] Tiket " + tiketBaru.getIdTiket() + " berhasil ditambahkan.");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("[ERROR] Input tidak valid: " + e.getMessage());
+        } catch (IllegalStateException e) {
+            System.out.println("[ERROR] State kursi bermasalah: " + e.getMessage());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("[ERROR] " + e.getMessage());
         }
     }
 
@@ -74,17 +89,13 @@ public class Transaksi implements Pembayaran {
     public void printInfo(){
         System.out.println("-- STRUK TRANSAKSI BIOSKOP --\n");
         System.out.println("ID_Transaksi: " + idTransaksi);
-
         System.out.println("Nama Pembeli: " + pembeli.getNama());
-
         System.out.println("-- DAFTAR TIKET YANG DIPESAN --\n");
         for(int i = 0; i < jumlahTiket; i++){
             tiketDibeli[i].printInfo();
             System.out.println("--------------------------");
         }
-
         System.out.println("Total Bayar: Rp" + hitungTotalBayar());
         System.out.println("--------------------------");
     }
-
 }
