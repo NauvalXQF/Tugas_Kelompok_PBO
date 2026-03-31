@@ -51,28 +51,53 @@ public class Transaksi implements Pembayaran {
     }
 
     // method dengan try-catch (versi lama DIHAPUS)
-    public void tambahTiket(Tiket tiketBaru) {
+     public void tambahTiket(Tiket tiketBaru) {
         try {
+          
             if (tiketBaru == null) {
                 throw new IllegalArgumentException("Tiket tidak boleh null!");
             }
-            if (tiketBaru.getKursi().getIsBooked() == false) {
-                throw new IllegalStateException("Kursi " + tiketBaru.getKursi().getNoKursi() + " belum di-booking!");
-            }
-            if (jumlahTiket >= tiketDibeli.length) {
+             if (jumlahTiket > tiketDibeli.length) {
+
                 throw new ArrayIndexOutOfBoundsException("Kapasitas transaksi penuh! Maksimal: " + tiketDibeli.length);
             }
-            tiketDibeli[jumlahTiket] = tiketBaru;
+            if (!tiketBaru.getKursi().getIsBooked()) {
+                throw new IllegalStateException("Kursi " + tiketBaru.getKursi().getNoKursi() + " belum di-booking!");
+            }
+           
+            int low = 0;
+            int high = jumlahTiket-1;
+            int posisiInput = jumlahTiket;
+
+            while(low <= high){
+                int mid = low + (high - low) / 2;
+                String idMid = tiketDibeli[mid].getIdTiket();
+                String idBaru = tiketBaru.getIdTiket();
+
+                int hasilBanding = idMid.compareTo(idBaru);
+                if (hasilBanding == 0) {
+                    throw new IllegalArgumentException(idBaru + " sudah exist!");
+                }
+                if (hasilBanding < 0) {
+                    low = mid + 1;
+                }
+                else {
+                    high = mid - 1;
+                    posisiInput = mid;
+                }
+            }
+
+            for (int i = jumlahTiket; i > posisiInput; i--) {
+                tiketDibeli[i] = tiketDibeli[i - 1];
+            }
+            
+            tiketDibeli[posisiInput] = tiketBaru;
             jumlahTiket++;
             System.out.println("[OK] Tiket " + tiketBaru.getIdTiket() + " berhasil ditambahkan.");
 
-        } catch (IllegalArgumentException e) {
-            System.out.println("[ERROR] Input tidak valid: " + e.getMessage());
-        } catch (IllegalStateException e) {
-            System.out.println("[ERROR] State kursi bermasalah: " + e.getMessage());
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("[ERROR] " + e.getMessage());
-        }
+        } catch (Exception e) { 
+             System.out.println("[ERROR] " + e.getMessage());
+         }
     }
 
     // implementasi method interface
@@ -83,6 +108,17 @@ public class Transaksi implements Pembayaran {
             total += tiketDibeli[i].getJadwal().getHarga();
         } 
         return total;
+    }
+
+    //proses pembayaran
+     public void prosesPembayaran() {
+        double total = hitungTotalBayar();
+        if (pembeli.getSaldo() < total) {
+            System.out.println("[FAILED] Saldo kurang Rp" + (total - pembeli.getSaldo()));
+        } else {
+            pembeli.setSaldo(pembeli.getSaldo() - total);
+            System.out.println("[SUCCESS] Pembayaran berhasil. Sisa saldo: Rp" + pembeli.getSaldo());
+         }
     }
 
     // method cetak struk
