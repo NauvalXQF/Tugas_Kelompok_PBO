@@ -1,18 +1,24 @@
-## Getting Started
+# Bioskop — Cinema Ticket Booking (Java)
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+A Java cinema ticket booking application built for the Object-Oriented Programming group project.
 
-## Folder Structure
+## Features
 
-The workspace contains two folders by default, where:
+- Admin and customer roles (`User`, `Admin`, `Customer`)
+- Film catalogue and showtime scheduling (`Film`, `JadwalTayang`)
+- Studios and seat selection (`Studio`, `Kursi`)
+- Ticket booking and payment handling (`Tiket`, `Pembayaran`, `Transaksi`)
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## Run
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+```bash
+cd src
+javac Main.java
+java Main
+```
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+Or open the `Bioskop` folder in your IDE and run `Main.java`.
 
-## Dependency Management
+## Notes
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+The repository also contains compiled `.class` files from earlier runs; rebuild from `.java` sources for the current version.
